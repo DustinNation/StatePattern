@@ -2,7 +2,7 @@
 
 var gumballMachine = new GumballMachine(5);
 
-PrintMachineState(gumballMachine);
+gumballMachine.PrintMachineState();
 
 Console.WriteLine();
 
@@ -12,7 +12,7 @@ gumballMachine.TurnCrank();
 
 Console.WriteLine();
 
-PrintMachineState(gumballMachine);
+gumballMachine.PrintMachineState();
 
 Console.WriteLine();
 
@@ -40,7 +40,7 @@ gumballMachine.EjectQuarter();
 
 Console.WriteLine();
 
-PrintMachineState(gumballMachine);
+gumballMachine.PrintMachineState();
 
 Console.WriteLine();
 
@@ -63,10 +63,4 @@ gumballMachine.TurnCrank();
 
 Console.WriteLine();
 
-PrintMachineState(gumballMachine);
-
-void PrintMachineState(GumballMachine gumballMachine)
-{
-    Console.WriteLine("Machine Status:  " + gumballMachine.State);
-    Console.WriteLine("Inventory:  " + gumballMachine.Count);
-}
+gumballMachine.PrintMachineState();
