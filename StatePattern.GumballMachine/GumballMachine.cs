@@ -20,6 +20,12 @@ namespace StatePattern.GumballMachine
                 : GumballMachineStates.SoldOut;
         }
 
+        public void PrintMachineState()
+        {
+            Console.WriteLine("Machine Status:  " + State);
+            Console.WriteLine("Inventory:  " + Count);
+        }
+
         public void InsertQuarter()
         {
             switch (State)
