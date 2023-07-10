@@ -1,140 +1,115 @@
-﻿namespace StatePattern.GumballMachine;
+﻿using StatePattern.GumballMachine.Interface;
+using StatePattern.GumballMachine.StateClasses;
+
+namespace StatePattern.GumballMachine;
 
 public class GumballMachine
 {
+    public int Count; // the count instance variable
+    public IState State; // the state instance variable
+
+
+    // All of the states
+    public IState DoubleDispenseWinnerState;
+    public IState HasQuarterState;
+    public IState NoQuarterState;
+    public IState SoldOutState;
+    public IState SoldState;
+
+
+    // The constructor takes the initial number of gumballs
+    // and stores it in the instance variable
+    //
+    // It also creates the state instances, one for each.
     public GumballMachine(int count)
     {
+        SoldOutState = new SoldOutState(this);
+        NoQuarterState = new NoQuarterState(this);
+        HasQuarterState = new HasQuarterState(this);
+        SoldState = new SoldState(this);
+        DoubleDispenseWinnerState = new DoubleDispenseWinnerState(this);
+
         Count = count;
 
+        // if we have gumballs, we set the state to the NoQuarterState,
+        // otherwise, we start in the SoldOutState.
         State = Count > 0
-            ? GumballMachineStates.NoQuarter
-            : GumballMachineStates.SoldOut;
+            ? NoQuarterState
+            : SoldOutState;
     }
-
-    public GumballMachineStates State { get; set; }
-    public int Count { get; set; }
 
     public void PrintMachineState()
     {
+        Console.WriteLine();
         Console.WriteLine("Machine Status:  " + State);
         Console.WriteLine("Inventory:  " + Count);
+        Console.WriteLine();
     }
 
+
+    // Now for the actions:
+    // These are now VERY EASY to implement
+    // We just delegate to the current state.
     public void InsertQuarter()
     {
-        switch (State)
-        {
-            case GumballMachineStates.HasQuarter:
-                Console.WriteLine("You can't insert another quarter");
-                break;
-
-            case GumballMachineStates.NoQuarter:
-                Console.WriteLine("You inserted a quarter");
-                State = GumballMachineStates.HasQuarter;
-                break;
-
-            case GumballMachineStates.SoldOut:
-                Console.WriteLine("You can't insert a quarter, the machine is sold out!");
-                break;
-
-            case GumballMachineStates.Sold:
-                Console.WriteLine("Please wait, we're already dispensing your gumball");
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        State.InsertQuarter();
     }
 
     public void EjectQuarter()
     {
-        switch (State)
-        {
-            case GumballMachineStates.HasQuarter:
-                Console.WriteLine("Quarter returned");
-                State = GumballMachineStates.NoQuarter;
-                break;
-
-            case GumballMachineStates.NoQuarter:
-                Console.WriteLine("You haven't inserted a quarter");
-                break;
-
-            case GumballMachineStates.Sold:
-                Console.WriteLine("Sorry, you already turned the crank");
-                break;
-
-            case GumballMachineStates.SoldOut:
-                Console.WriteLine("You can't eject, you haven't inserted a quarter yet");
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        State.EjectQuarter();
     }
 
     public void TurnCrank()
     {
-        switch (State)
+        State.TurnCrank();
+            // We don't need an action method for Dispense() in GumballMachine,
+            // because it's just an internal action; a user can't ask the machine to
+            // to dispense directly.
+            // We do call Dispense() on the IState object from the TurnCrank() method.
+        State.Dispense();
+    }
+
+    /// <summary>
+    /// This is the method that allows other objects
+    /// (like our IState objects)
+    /// to transition the machine to a different state.
+    /// </summary>
+    /// <param name="state"></param>
+    public void SetState(IState state)
+    {
+        State = state;
+    }
+
+    /// <summary>
+    /// This is a helper method that releases the ball and decrements the count instance variable.
+    /// </summary>
+    public void ReleaseBall()
+    {
+        Console.WriteLine("A gumball comes rolling out the slot...");
+        if (Count > 0)
         {
-            case GumballMachineStates.Sold:
-                Console.WriteLine("Turning twice doesn't get you another gumball!");
-                break;
-
-            case GumballMachineStates.NoQuarter:
-                Console.WriteLine("You turned the crank, but you didn't insert a quarter");
-                break;
-
-            case GumballMachineStates.SoldOut:
-                Console.WriteLine("You turned, but there's no gumballs left to dispense");
-                break;
-
-            case GumballMachineStates.HasQuarter:
-                Console.WriteLine("You turned...");
-                State = GumballMachineStates.Sold;
-
-                Dispense();
-
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException();
+            Count -= 1;
         }
     }
 
-    public void Dispense()
+    public IState GetHasQuarterState()
     {
-        switch (State)
-        {
-            case GumballMachineStates.Sold:
-                Console.WriteLine("A gumball comes rolling out of the slot");
-                Count -= 1;
+        return HasQuarterState;
+    }
 
-                if (Count == 0)
-                {
-                    Console.WriteLine("Oops, out of gumballs");
-                    State = GumballMachineStates.SoldOut;
-                }
-                else
-                {
-                    State = GumballMachineStates.NoQuarter;
-                }
+    public IState GetNoQuarterState()
+    {
+        return NoQuarterState;
+    }
 
-                break;
+    public IState GetSoldState()
+    {
+        return SoldState;
+    }
 
-            case GumballMachineStates.NoQuarter:
-                Console.WriteLine("You need to insert a quarter first");
-                break;
-
-            case GumballMachineStates.SoldOut:
-                Console.WriteLine("No gumball dispensed");
-                break;
-
-            case GumballMachineStates.HasQuarter:
-                Console.WriteLine("You need to turn the crank");
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+    public IState GetSoldOutState()
+    {
+        return SoldOutState;
     }
 }

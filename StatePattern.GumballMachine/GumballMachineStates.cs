@@ -11,6 +11,7 @@ namespace StatePattern.GumballMachine
         SoldOut,
         NoQuarter,
         HasQuarter,
-        Sold
+        Sold,
+        DoubleDispenseWinner
     }
 }
