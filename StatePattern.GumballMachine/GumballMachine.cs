@@ -93,6 +93,15 @@ public class GumballMachine
         }
     }
 
+    public void Refill(int count)
+    {
+        Count += count;
+        Console.WriteLine($"The gumball machine was just refilled; its new count is:  {count}");
+        State.Refill();
+    }
+
+    #region State Modifiers
+
     public IState GetHasQuarterState()
     {
         return HasQuarterState;
@@ -112,4 +121,6 @@ public class GumballMachine
     {
         return SoldOutState;
     }
+
+    #endregion State Modifiers
 }

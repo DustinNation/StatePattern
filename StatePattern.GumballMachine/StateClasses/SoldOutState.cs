@@ -35,5 +35,13 @@ namespace StatePattern.GumballMachine.StateClasses
         {
             Console.WriteLine("No gumball dispensed");
         }
+
+        /// <summary>
+        /// Refill the gumball machine.
+        /// </summary>
+        public void Refill()
+        {
+            GumballMachine.SetState(GumballMachine.GetNoQuarterState());
+        }
     }
 }

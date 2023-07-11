@@ -56,4 +56,12 @@ public class SoldState : IState
             GumballMachine.SetState(GumballMachine.GetNoQuarterState());
         }
     }
+
+    /// <summary>
+    /// An inappropriate action for this state
+    /// </summary>
+    public void Refill()
+    {
+        // do nothing
+    }
 }

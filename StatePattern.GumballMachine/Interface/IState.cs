@@ -12,5 +12,6 @@ namespace StatePattern.GumballMachine.Interface
         void EjectQuarter();
         void TurnCrank();
         void Dispense();
+        void Refill();
     }
 }

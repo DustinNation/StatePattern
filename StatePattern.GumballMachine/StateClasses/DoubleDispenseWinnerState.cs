@@ -55,5 +55,10 @@ namespace StatePattern.GumballMachine.StateClasses
                 }
             }
         }
+
+        public void Refill()
+        {
+            // do nothing
+        }
     }
 }

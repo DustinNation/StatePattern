@@ -31,4 +31,12 @@ public class NoQuarterState : IState
     {
         Console.WriteLine("You need to pay first.");
     }
+
+    /// <summary>
+    /// An inappropriate action for this state
+    /// </summary>
+    public void Refill()
+    {
+        // do nothing
+    }
 }

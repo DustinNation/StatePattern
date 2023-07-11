@@ -55,4 +55,12 @@ public class HasQuarterState : IState
     {
         Console.WriteLine("No gumball dispensed.");
     }
+
+    /// <summary>
+    /// An inappropriate action for this state
+    /// </summary>
+    public void Refill()
+    {
+        // do nothing
+    }
 }
