@@ -1,8 +1,7 @@
 # StatePattern
 Head First Design Patterns Chapter 10
 
-# The State Pattern allows an object to alter its behavior when its internal state changes. The object will appear to change its class.
-# -ie this pattern encapsulates state-based behavior and delegates behavior to the current state.
+# The State Pattern allows an object to alter its behavior when its internal state changes. The object will appear to change its class. -ie this pattern encapsulates state-based behavior and delegates behavior to the current state.
 
 ** The State Pattern allows an object to have many different behaviors that are based on its internal state.
 
